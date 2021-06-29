@@ -1,22 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View, Button } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 export default function App() {
 
-  const [pressedCount, setPressedCount] = useState(0);
+  
+  const [password, setPassword] = useState('');
+  const [profile, setProfile] = useState({});
 
+  const [pressedCount, setPressedCount] = useState(0);
   const handlePress = () => {
     setPressedCount(pressedCount => ++pressedCount)
-  }
+  };
+
+  const [name, setName] = useState('');
+  const handleTextChange = (text) => {
+    setName(text)
+  };
 
   const handleResetPress = () =>  {
     setPressedCount(0)
-  }
+  };
+
+  const handleSubmit = () => {
+    setProfile(
+      {'name': name,
+      'password': password}
+      )
+  };
+
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', marginTop: 50, textAlign: 'center'}}>
    <ScrollView >
+
+     {/* Verical scroll */}
    <View style={{flex: 1}}>
     <Text style={{ fontSize: 24, textAlign: 'center' }}>
       Scroll me <Text style={{fontWeight: 'bold'}}>Vertically</Text>!
@@ -31,6 +49,7 @@ export default function App() {
       </View>
     </View>
 
+      {/* Horzontal scroll */}
       <View style={{flex: 1, marginTop: 30}}>
       <Text style={{ fontSize: 24, textAlign: 'center' }}>
       Scroll me <Text style={{fontWeight: 'bold'}}>horizontally</Text>!
@@ -45,6 +64,7 @@ export default function App() {
       </View>
       </View>
 
+      {/* Button Press */}
       <View style={{flex: 1, alignItems: 'center'}}>
         <Text style={{fontSize: 24, marginTop: 40}}>Button Press</Text>
         <View style={{backgroundColor: 'black', borderRadius: 16, width: '50%', marginTop: 40, marginBottom: 50}}>
@@ -58,6 +78,25 @@ export default function App() {
             </Text>
             <View style={{backgroundColor: 'black', width:'30%', marginBottom: 50}}>
           <Button title='Reset Me' onPress={handleResetPress} color='chartreuse'/>
+          </View>
+      </View>
+
+      {/* TextInput */}
+      <View style={{flex: 1, alignItems: 'flex-start', padding: 20}}>
+      <Text style={{fontSize: 24, marginTop: 40, alignSelf:'center'}}>
+        Text Input
+        </Text>
+        <Text style={{fontSize: 18, marginTop: 20, marginBottom: 15, color: 'dimgrey'}}>
+          {name ? `Hi ${name}, WELCOME!` : 'Please enter your name:'}
+        </Text>
+        <TextInput onChangeText={handleTextChange} style={{width:'100%', padding: 12, backgroundColor: 'gainsboro', marginBottom: 20}}/>
+        <Text style={{fontSize: 18, marginTop: 20, marginBottom: 15, color: 'dimgrey'}}>
+          Password:
+        </Text>
+        <TextInput value={password} secureTextEntry={true} onChangeText={text => setPassword(text)} style={{width:'100%', padding: 12, backgroundColor: 'gainsboro', marginBottom: 20}}/>
+        <Text  style={{color: 'red'}}>Profile {JSON.stringify(profile)}</Text>
+        <View alignSelf='center' style={{backgroundColor: 'black', borderRadius: 5, width: '30%', marginTop: 40, marginBottom: 50}}>
+          <Button color='white' title='Submit' onPress={handleSubmit}/>
           </View>
       </View>
    </ScrollView>
