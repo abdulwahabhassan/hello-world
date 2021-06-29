@@ -4,9 +4,6 @@ import { ScrollView, StyleSheet, Text, View, Button, TextInput } from 'react-nat
 
 export default function App() {
 
-  
-  const [password, setPassword] = useState('');
-  const [profile, setProfile] = useState({});
 
   const [pressedCount, setPressedCount] = useState(0);
   const handlePress = () => {
@@ -22,12 +19,22 @@ export default function App() {
     setPressedCount(0)
   };
 
+  const [profile, setProfile] = useState({});
+  const [password, setPassword] = useState('');
   const handleSubmit = () => {
     setProfile(
       {'name': name,
       'password': password}
-      )
+      );
   };
+
+  const isProfileComplete = () => {
+    return (profile.hasOwnProperty('name') && 
+    profile.name !== '' && profile.hasOwnProperty('password') && 
+    profile.password !== '') ? true : false
+
+  };
+  
 
 
   return (
@@ -36,15 +43,15 @@ export default function App() {
 
      {/* Verical scroll */}
    <View style={{flex: 1}}>
-    <Text style={{ fontSize: 24, textAlign: 'center' }}>
+    <Text style={{ fontSize: 24, textAlign: 'center', marginTop: 5}}>
       Scroll me <Text style={{fontWeight: 'bold'}}>Vertically</Text>!
     </Text>
-      <View>
+      <View style={{marginTop: 10}}>
       <ScrollView>
         <View style={{ width: 500, height: 500, backgroundColor: 'red' }} />
+        <View style={{ width: 500, height: 500, backgroundColor: 'yellow' }} />
         <View style={{ width: 500, height: 500, backgroundColor: 'green' }} />
         <View style={{ width: 500, height: 500, backgroundColor: 'blue' }} />
-        <View style={{ width: 500, height: 500, backgroundColor: 'yellow' }} />
       </ScrollView>
       </View>
     </View>
@@ -54,7 +61,7 @@ export default function App() {
       <Text style={{ fontSize: 24, textAlign: 'center' }}>
       Scroll me <Text style={{fontWeight: 'bold'}}>horizontally</Text>!
     </Text>
-      <View>
+      <View style={{marginTop: 10}}>
       <ScrollView horizontal>
       <View style={{ width: 500, height: 500, backgroundColor: 'yellow' }} />
         <View style={{ width: 500, height: 500, backgroundColor: 'red' }} />
@@ -94,7 +101,7 @@ export default function App() {
           Password:
         </Text>
         <TextInput value={password} secureTextEntry={true} onChangeText={text => setPassword(text)} style={{width:'100%', padding: 12, backgroundColor: 'gainsboro', marginBottom: 20}}/>
-        <Text  style={{color: 'red'}}>Profile {JSON.stringify(profile)}</Text>
+        <Text  style={{color: 'red'}}>{ isProfileComplete() ? <Text style={{color: 'green'}}>Profile {JSON.stringify(profile)}</Text> : 'Please input name and password'}</Text>
         <View alignSelf='center' style={{backgroundColor: 'black', borderRadius: 5, width: '30%', marginTop: 40, marginBottom: 50}}>
           <Button color='white' title='Submit' onPress={handleSubmit}/>
           </View>
